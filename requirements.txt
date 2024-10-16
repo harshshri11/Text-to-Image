@@ -3,3 +3,5 @@ torch
 Pillow
 torchvision
 diffusers
+python_version >= 3.11
+transformers

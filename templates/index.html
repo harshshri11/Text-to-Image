@@ -41,38 +41,34 @@
 
     <script>
         document.getElementById('promptForm').addEventListener('submit', async function (event) {
-            event.preventDefault(); // Prevent the default form submission
-            
-            // Show loading animation
-            document.getElementById('loadingAnimation').style.display = 'flex';
+    event.preventDefault(); // Prevent the default form submission
 
-            const promptInput = event.target.prompt.value;
+    // Show loading animation
+    document.getElementById('loadingAnimation').style.display = 'flex';
 
-            // Fetch the generated image from the Flask app
-            const response = await fetch('/generate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ prompt: promptInput })
-            });
+    const promptInput = event.target.prompt.value;
 
-            // Hide loading animation
-            document.getElementById('loadingAnimation').style.display = 'none';
+    // Fetch the generated image from the Flask app
+    const response = await fetch('/generate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ prompt: promptInput })
+    });
 
-            if (response.ok) {
-                const data = await response.json();
-                const imgElement = document.getElementById('generatedImage');
-                imgElement.src = data.image_url; // Adjust based on your Flask response
-                imgElement.style.display = 'block'; // Show the image
-            } else {
-                console.error('Error generating image:', response.statusText);
-            }
-        });
+    // Hide loading animation
+    document.getElementById('loadingAnimation').style.display = 'none';
 
-        function setPrompt(prompt) {
-            document.querySelector('input[name="prompt"]').value = prompt; // Set the input field
-        }
+    if (response.ok) {
+        const data = await response.json();
+        const imgElement = document.getElementById('generatedImage');
+        imgElement.src = data.image_url; // Set the source to the base64 image URL
+        imgElement.style.display = 'block'; // Make the image visible
+    } else {
+        console.error('Error generating image:', response.statusText);
+    }
+});
     </script>
 </body>
 </html>

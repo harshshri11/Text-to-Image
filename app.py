@@ -34,6 +34,7 @@ def generate():
             return jsonify(error="Image generation failed"), 500  # Return error if generation failed
     return jsonify(error="No prompt provided"), 400  # Return error if no prompt
 
+
 def generate_image_from_prompt(prompt):
     try:
         # Generate an image based on the prompt

@@ -10,7 +10,7 @@ app = Flask(__name__)
 # Load the model
 model_id = "stabilityai/stable-diffusion-2-1"
 device = "cuda" if torch.cuda.is_available() else "cpu"
-pipeline = StableDiffusionPipeline.from_pretrained(model_id).to(device)
+pipeline = StableDiffusionPipeline.from_pretrained(model_id, low_cpu_mem_usage=True).to(device)
 
 @app.route('/')
 def home():

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Design Image Generator</title>
+    <link rel="icon" href="{{ url_for('static', filename='fevicon.png') }}" type="image/png">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Fashion Design Image Generator</h1>
+        <p>Generate stunning images of fashion designs based on detailed prompts.</p>
+
+        <form id="promptForm">
+            <input type="text" name="prompt" placeholder="Enter a fashion prompt" required>
+            <button type="submit">Generate</button>
+        </form>
+
+        <div class="output-container">
+            <div class="generated-image-container">
+                <h2>Generated Image</h2>
+                <div id="loadingAnimation" style="display: none;">
+                    <div class="loader"></div> <!-- Loader HTML -->
+                </div>
+                <img id="generatedImage" src="" alt="Generated Fashion Design" style="display:none;">
+            </div>
+        </div>
+
+        <div class="examples">
+            <h3>Examples:</h3>
+            <ul>
+                <li onclick="setPrompt('Design a traditional bridal lehenga with gold embroidery and a matching dupatta.')">Design a traditional bridal lehenga with gold embroidery and a matching dupatta.</li>
+                <li onclick="setPrompt('Create a contemporary Indian sari with pastel shades and intricate beadwork.')">Create a contemporary Indian sari with pastel shades and intricate beadwork.</li>
+                <li onclick="setPrompt('Generate a royal Indian sherwani with rich embroidery and a regal turban.')">Generate a royal Indian sherwani with rich embroidery and a regal turban.</li>
+                <li onclick="setPrompt('Illustrate an elegant Indian wedding gown with detailed gold embellishments and a flowing skirt.')">Illustrate an elegant Indian wedding gown with detailed gold embellishments and a flowing skirt.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('promptForm').addEventListener('submit', async function (event) {
+            event.preventDefault(); // Prevent the default form submission
+            
+            // Show loading animation
+            document.getElementById('loadingAnimation').style.display = 'flex';
+
+            const promptInput = event.target.prompt.value;
+
+            // Fetch the generated image from the Flask app
+            const response = await fetch('/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ prompt: promptInput })
+            });
+
+            // Hide loading animation
+            document.getElementById('loadingAnimation').style.display = 'none';
+
+            if (response.ok) {
+                const data = await response.json();
+                const imgElement = document.getElementById('generatedImage');
+                imgElement.src = data.image_url; // Adjust based on your Flask response
+                imgElement.style.display = 'block'; // Show the image
+            } else {
+                console.error('Error generating image:', response.statusText);
+            }
+        });
+
+        function setPrompt(prompt) {
+            document.querySelector('input[name="prompt"]').value = prompt; // Set the input field
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+body {
+    background: linear-gradient(135deg, #2a2a2a, #3c3c3c, #4d4d4d);
+    background-size: 300% 300%; /* Create a shimmering effect */
+    animation: gradient 6s ease infinite; /* Animate the gradient */
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+}
+
+h1, h2, h3 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%; /* Full width for the form */
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px; /* Increased padding for a better feel */
+    margin-bottom: 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #2c2c2c;
+    color: #ffffff;
+    font-size: 16px; /* Larger font size for readability */
+    transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+input[type="text"]:focus {
+    border-color: #6200ee; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6200ee;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #3700b3;
+}
+
+.examples {
+    margin-top: 20px;
+    width: 100%; /* Full width for examples section */
+}
+
+.examples ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.examples li {
+    cursor: pointer;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #2c2c2c;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.examples li:hover {
+    background-color: #444;
+}
+
+#output {
+    text-align: center;
+    margin-top: 20px; /* Add margin to separate from examples */
+}
+
+#loadingAnimation {
+    display: none; /* Hide by default */
+    position: relative; /* Ensure it overlays correctly */
+    width: 100%; /* Full width */
+    height: 200px; /* Set height for consistent spacing */
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+/* Loader styling */
+.loader {
+    width: 65px;
+    aspect-ratio: 1;
+    position: relative;
+}
+
+.loader:before,
+.loader:after {
+    content: "";
+    position: absolute;
+    border-radius: 50px;
+    box-shadow: 0 0 0 3px inset #fff;
+    animation: l4 2.5s infinite;
+}
+
+.loader:after {
+    animation-delay: -1.25s; /* Delay for the second animation */
+}
+
+@keyframes l4 {
+    0% {
+        inset: 0 35px 35px 0;
+    }
+    12.5% {
+        inset: 0 35px 0 0;
+    }
+    25% {
+        inset: 35px 35px 0 0;
+    }
+    37.5% {
+        inset: 35px 0 0 0;
+    }
+    50% {
+        inset: 35px 0 0 35px;
+    }
+    62.5% {
+        inset: 0 0 0 35px;
+    }
+    75% {
+        inset: 0 0 35px 35px;
+    }
+    87.5% {
+        inset: 0 0 35px 0;
+    }
+    100% {
+        inset: 0 35px 35px 0;
+    }
+}
+
+.generated-image-container {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Arrange items vertically */
+    align-items: center; /* Center content horizontally */
+    justify-content: center; /* Center content vertically */
+    margin-top: 20px; /* Add space above */
+    background-color: #2c2c2c; /* Background color for the generated image container */
+    padding: 15px; /* Padding for better spacing */
+    border-radius: 10px; /* Rounded corners */
+    width: 100%; /* Full width */
+}
+
+#container {
+    position: relative; /* Position relative for the loading animation */
+    width: 200px;
+    height: 200px;
+    background-color: #1e1e1e; /* Set background for the animation area */
+    border-radius: 10px; /* Add rounded corners to the loading animation */
+    display: flex; /* Use flexbox to center the canvas */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}

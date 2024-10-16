@@ -1,7 +1,9 @@
-from flask import Flask, request, jsonify, render_template, send_from_directory
+from flask import Flask, request, jsonify, render_template
 from diffusers import StableDiffusionPipeline
 import torch
-import os
+from io import BytesIO
+import base64
+from PIL import Image
 
 app = Flask(__name__)
 
@@ -9,10 +11,6 @@ app = Flask(__name__)
 model_id = "stabilityai/stable-diffusion-2-1"
 device = "cuda" if torch.cuda.is_available() else "cpu"
 pipeline = StableDiffusionPipeline.from_pretrained(model_id).to(device)
-
-# Ensure the directory for generated images exists
-generated_images_dir = "static/generated_images"
-os.makedirs(generated_images_dir, exist_ok=True)  # Create the directory if it doesn't exist
 
 @app.route('/')
 def home():
@@ -25,12 +23,13 @@ def generate():
     if prompt:
         image = generate_image_from_prompt(prompt)
         if image:
-            # Save the image and return its URL
-            image_filename = f"{prompt.replace(' ', '_')}.png"  # Create a file name based on prompt
-            image_path = os.path.join(generated_images_dir, image_filename)  # Full path for saving
-            image.save(image_path)  # Save the image using PIL
+            # Convert the image to base64 without saving it
+            buffered = BytesIO()
+            image.save(buffered, format="PNG")
+            image_base64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
 
-            return jsonify(image_url=image_path), 200  # Return the URL of the generated image
+            # Return the base64 encoded image data in a JSON response
+            return jsonify(image_url=f"data:image/png;base64,{image_base64}"), 200
         else:
             return jsonify(error="Image generation failed"), 500  # Return error if generation failed
     return jsonify(error="No prompt provided"), 400  # Return error if no prompt
@@ -44,10 +43,5 @@ def generate_image_from_prompt(prompt):
         print(f"Error generating image: {e}")
         return None
 
-# Serve static files manually if needed in production
-@app.route('/static/<path:path>')
-def send_static(path):
-    return send_from_directory('static', path)
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
